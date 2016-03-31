@@ -1,0 +1,43 @@
+// Grid
+.make-row(@padding: @grid-column-padding) {
+  // Negative margin the row out to align the content of columns
+  margin-left: -@padding;
+  margin-right: -@padding;
+  // Then clear the floated columns
+  .clearfix();
+}
+.make-column(@columns, @total-columns: @grid-columns, @breakpoint: @grid-float-breakpoint, @padding: @grid-column-padding) {
+  @media (min-width: @breakpoint) {
+    float: left;
+    // Calculate width based on number of columns available
+    width: percentage(@columns / @total-columns);
+  }
+  // Prevent columns from collapsing when empty
+  min-height: 1px;
+  // Set inner padding as gutters instead of margin
+  padding-left: @padding;
+  padding-right: @padding;
+  // Proper box-model (padding doesn't add to width)
+
+  box-sizing: border-box;
+}
+.make-column-offset(@columns, @total-columns: @grid-columns, @breakpoint: @grid-float-breakpoint, @padding: @grid-column-padding) {
+  @media (min-width: @breakpoint) {
+    margin-left: percentage(@columns / @total-columns);
+  }
+}
+
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+    // Fixes Opera/contenteditable bug:
+    // http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
